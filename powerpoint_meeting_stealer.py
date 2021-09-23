@@ -11,7 +11,6 @@ print("""
 *App description: This app is intended to help you snip the screen and turn it into pdf
 so you can grab meeting presentation easily
 *How to use: just enter the title, then press "`" to copy & "shift + `" to stop
-**Developer: draharjo
 """)
 
 #get all .png file that has been snipped ================
@@ -40,9 +39,12 @@ for drive in drives:
     print(str(cd) + ". " + drive)
     cd = cd + 1   
 while bool_drive is False:
-    selected_drive = int(input("drive : "))
-    if selected_drive > 0 and selected_drive <= len(drives):
-        bool_drive = True
+    try:
+        selected_drive = int(input("drive : "))
+        if selected_drive > 0 and selected_drive <= len(drives):
+            bool_drive = True
+    except:
+        print("masukan salah, mohon ulangi")
 
 the_drive = drives[selected_drive-1]
 root = the_drive + "ppt stealer"     
@@ -68,8 +70,8 @@ while True:
     if keyboard.read_key() == "`":
         from PIL import ImageGrab
         im = ImageGrab.grab()
-        im.save(folder+ "\\" + str(c)+ "_" + title + ".png")
-        print("capture " + str(c)+ "_" + title + ".png")
+        im.save(folder+ "\\" + str("{:04n}".format(c))+ "_" + title + ".png")
+        print("capture " + str("{:04n}".format(c))+ "_" + title + ".png")
         c = c + 1
     if keyboard.read_key() == "~":
         imagelist = get_all_file_paths(folder)
@@ -79,5 +81,3 @@ while True:
         pdf.output(folder + "\\" + title + ".pdf", "F")
         print("save capture into " + folder + "\\" + title + ".pdf")
         break
-    
-
